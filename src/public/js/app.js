@@ -1,1 +1,1 @@
-HTMLPreEledsfl;
+const socket = io();
