@@ -1,5 +1,6 @@
 import http from "http";
-import SocketIO from "socket.io";
+import { Server } from "socket.io";
+import { instrument } from "@socket.io/admin-ui";
 import express from "express";
 
 const app = express();
@@ -14,16 +15,35 @@ app.get("/*", (req, res) => res.redirect("/"));
 const handleListen = () => console.log("Listening on http://localhost:3000");
 
 const httpServer = http.createServer(app);
-const wsServer = SocketIO(httpServer);
-
-wsServer.on("connection", (socket) => {
-  console.log(socket);
+const wsServer = new Server(httpServer, {
+  cors: {
+    origin: "https://admin.socket.io",
+    credentials: true,
+  },
 });
 
-// wss.on("connection", (socket) => {
-//   socket.on("close", () => console.log("Disconnected from the Browser"));
-//   socket.on("message", (message) => console.log(message));
-//   socket.send("hello");
-// });
+instrument(wsServer, {
+  auth: false,
+});
+
+wsServer.on("connection", (socket) => {
+  socket["nickname"] = "Anon";
+  socket.onAny((event) => {
+    console.log(`Socket Event : ${event}`);
+  });
+  socket.on("join_room", (roomName) => {
+    socket.join(roomName);
+    socket.to(roomName).emit("welcome", socket.nickname);
+  });
+  socket.on("offer", (offer, roomName) => {
+    socket.to(roomName).emit("offer", offer);
+  });
+  socket.on("answer", (answer, roomName) => {
+    socket.to(roomName).emit("answer", answer);
+  });
+  socket.on("ice", (ice, roomName) => {
+    socket.to(roomName).emit("ice", ice);
+  });
+});
 
 httpServer.listen(3000, handleListen);
