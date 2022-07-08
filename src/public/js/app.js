@@ -6,13 +6,20 @@ const cameraBtn = document.getElementById("camera");
 const camerasSelect = document.getElementById("cameras");
 const call = document.getElementById("call");
 
-let myNickname;
-let myStream;
-let muted = false;
-let cameraOff = false;
-let roomName;
-let myPeerConnection;
-let myDataChannel;
+const canvas = document.getElementById("gameBoard");
+const ctx = canvas.getContext("2d");
+
+let myNickname,
+  myStream,
+  muted = false,
+  cameraOff = false,
+  roomName,
+  myPeerConnection,
+  myDataChannel,
+  locationXY = [],
+  blackId = [],
+  whiteId = [],
+  turn = "black";
 
 async function getCameras() {
   try {
@@ -139,33 +146,56 @@ welcomeForm.addEventListener("submit", handleWelcomSubmit);
 //socket code
 
 socket.on("welcome", async () => {
-  myDataChannel = myPeerConnection.createDataChannel("chat");
+  myDataChannel = myPeerConnection.createDataChannel("game");
   myDataChannel.addEventListener("message", (event) => {
-    console.log(event.data);
+    const { data } = event;
+    const turn = data.split(",")[0];
+    const locationX = data.split(",")[1] - 0;
+    const locationY = data.split(",")[2] - 0;
+    console.log(turn, locationX, locationY);
+    if (turn === "black") {
+      blackDown(locationX, locationY);
+      locationXY.push(`${locationX}_${locationY}`);
+      checkGame(blackId, "흑");
+    } else {
+      whiteDown(locationX, locationY);
+      locationXY.push(`${locationX}_${locationY}`);
+      checkGame(whiteId, "백");
+    }
+    changeTurn();
   });
   const offer = await myPeerConnection.createOffer();
   myPeerConnection.setLocalDescription(offer);
   socket.emit("offer", offer, roomName);
-  console.log("sent offer");
 });
 
 socket.on("offer", async (offer) => {
   myPeerConnection.addEventListener("datachannel", (event) => {
     myDataChannel = event.channel;
     myDataChannel.addEventListener("message", (event) => {
-      console.log(event.data);
+      const { data } = event;
+      const turn = data.split(",")[0];
+      const locationX = data.split(",")[1] - 0;
+      const locationY = data.split(",")[2] - 0;
+      if (turn === "black") {
+        blackDown(locationX, locationY);
+        locationXY.push(`${locationX}_${locationY}`);
+        checkGame(blackId, "흑");
+      } else {
+        whiteDown(locationX, locationY);
+        locationXY.push(`${locationX}_${locationY}`);
+        checkGame(whiteId, "백");
+      }
+      changeTurn();
     });
   });
-  console.log("received offer");
   myPeerConnection.setRemoteDescription(offer);
   const answer = await myPeerConnection.createAnswer();
   myPeerConnection.setLocalDescription(answer);
   socket.emit("answer", answer, roomName);
-  console.log("sent answer");
 });
 
 socket.on("answer", (answer) => {
-  console.log("received answer");
   myPeerConnection.setRemoteDescription(answer);
 });
 
@@ -202,4 +232,33 @@ function handleAddStream(data) {
   const peerFace = document.getElementById("peerFace");
   console.log(data.stream);
   peerFace.srcObject = data.stream;
+}
+
+// game
+const handleMouseDown = (event) => {
+  const x = rangeSet(event.offsetX);
+  const y = rangeSet(event.offsetY);
+
+  if (!locationXY.includes(`${x}_${y}`)) {
+    if (downRange.includes(x) && downRange.includes(y)) {
+      myDataChannel.send(`${turn},${x},${y}`);
+      if (turn === "black") {
+        blackDown(x, y);
+        locationXY.push(`${x}_${y}`);
+        checkGame(blackId, "흑");
+      } else {
+        whiteDown(x, y);
+        locationXY.push(`${x}_${y}`);
+        checkGame(whiteId, "백");
+      }
+      changeTurn();
+    }
+  } else {
+    console.log("중복");
+  }
+};
+
+if (canvas) {
+  canvas.addEventListener("mousedown", handleMouseDown);
+  canvas.addEventListener("touchend", handleMouseDown);
 }

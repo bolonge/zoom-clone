@@ -1,6 +1,3 @@
-const canvas = document.getElementById("gameBoard");
-const ctx = canvas.getContext("2d");
-
 ctx.strokeRect(20, 20, 630, 630);
 ctx.beginPath();
 
