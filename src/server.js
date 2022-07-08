@@ -31,6 +31,9 @@ wsServer.on("connection", (socket) => {
   socket.onAny((event) => {
     console.log(`Socket Event : ${event}`);
   });
+  socket.on("nickname", (nickname) => {
+    socket["nickname"] = nickname;
+  });
   socket.on("join_room", (roomName) => {
     socket.join(roomName);
     socket.to(roomName).emit("welcome", socket.nickname);

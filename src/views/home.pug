@@ -9,14 +9,14 @@ html(lang="en")
     body(class="flex flex-col justify-center items-center")
         header(class="container flex justify-center items-center")
             h1(class="text-lg font-bold") watchinggo
-        main(class="container flex justify-center items-center")
+        main(class="container flex justify-center items-center h-screen")
             div#welcome(class="")
-                form#nickName(class="")
-                    input(placeholder="Your Name",required, type="text")
-                    button Save   
+                form#nickname(class="border-b-2 pb-3 border-slate-200")
+                    input(placeholder="Your Name",required, type="text" class="welcome-input")
+                    button(class="welcome-button") Save   
                 form#roomName(class="")
-                    input(placeholder="Room Name",required, type="text")
-                    button Enter Room      
+                    input(placeholder="Room Name",required, type="text" class="welcome-input")
+                    button(class="welcome-button") Enter Room      
             div#call(class="",hidden=true)
                 div#myStream(class='')
                     video#myFace(autoplay, playsinline, width="300", height="300",class="rounded-md")

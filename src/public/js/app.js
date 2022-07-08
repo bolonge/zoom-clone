@@ -4,11 +4,9 @@ const myFace = document.getElementById("myFace");
 const muteBtn = document.getElementById("mute");
 const cameraBtn = document.getElementById("camera");
 const camerasSelect = document.getElementById("cameras");
-
 const call = document.getElementById("call");
 
-call.hidden = true;
-
+let myNickname;
 let myStream;
 let muted = false;
 let cameraOff = false;
@@ -37,13 +35,13 @@ async function getCameras() {
 
 async function getMedia(deviceId) {
   const initialContraints = {
-    audio: true,
+    audio: false,
     video: {
       facingMode: true,
     },
   };
   const cameraContraints = {
-    audio: true,
+    audio: false,
     video: { deviceId: { exact: deviceId } },
   };
   try {
@@ -103,7 +101,18 @@ camerasSelect.addEventListener("input", handleCameraChange);
 //welcome form code
 
 const welcome = document.getElementById("welcome");
-welcomeForm = welcome.querySelector("form");
+welcomeForm = welcome.querySelector("#roomName");
+nicknameForm = welcome.querySelector("#nickname");
+
+function handleSaveNickName(event) {
+  event.preventDefault();
+  const input = nicknameForm.querySelector("input");
+  const button = nicknameForm.querySelector("button");
+  socket.emit("nickname", input.value);
+  myNickname = input.value;
+  input.disabled = true;
+  button.disabled = true;
+}
 
 async function initCall() {
   welcome.hidden = true;
@@ -114,13 +123,17 @@ async function initCall() {
 
 async function handleWelcomSubmit(event) {
   event.preventDefault();
-  const input = welcome.querySelector("input");
+  if (!myNickname) {
+    alert("이름을 입력해주세요");
+    return;
+  }
+  const input = welcomeForm.querySelector("input");
   await initCall();
   socket.emit("join_room", input.value);
   roomName = input.value;
   input.value = "";
 }
-
+nicknameForm.addEventListener("submit", handleSaveNickName);
 welcomeForm.addEventListener("submit", handleWelcomSubmit);
 
 //socket code

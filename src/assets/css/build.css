@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
+
+@layer components {
+    .welcome-input {
+      @apply w-full p-3 my-3 border rounded-md ;
+    }
+    .welcome-button {
+        @apply w-full border-2 border-amber-400 p-2 rounded-md hover:bg-amber-400 disabled:border-transparent disabled:bg-slate-200
+    }
+}
+
 @tailwind utilities;
+@tailwind variants;
