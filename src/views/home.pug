@@ -11,18 +11,21 @@ html(lang="en")
             h1(class="text-lg font-bold") watchinggo
         main(class="container flex justify-center items-center")
             div#welcome(class="")
-                form(class="")
-                    input(placeholder="room name",required, type="text")
+                form#nickName(class="")
+                    input(placeholder="Your Name",required, type="text")
+                    button Save   
+                form#roomName(class="")
+                    input(placeholder="Room Name",required, type="text")
                     button Enter Room      
-            div#call(class="")
+            div#call(class="",hidden=true)
                 div#myStream(class='')
-                    video#myFace(autoplay, playsinline, width="300", height="300")
+                    video#myFace(autoplay, playsinline, width="300", height="300",class="rounded-md")
                     button#mute Mute
                     button#camera Turn Camera off
                     select#cameras
                 div#game
                     div#turn
-                    canvas#gameBoard(width="670", height="670")
+                    canvas#gameBoard(width="670", height="670", class="bg-amber-300 rounded-md")
                 div#modal
                     div#overlay
                     div#content
@@ -30,6 +33,11 @@ html(lang="en")
                         button#reload
                         button#cancel
                 div#peerStream
-                    video#peerFace(autoplay, playsinline, width="300", height="300")
+                    video#peerFace(autoplay, playsinline, width="300", height="300",class="rounded-md")
         script(src="/socket.io/socket.io.js") 
         script(src="public/js/app.js")
+        script(src="public/js/board.js")
+        script(src="public/js/createId.js")
+        script(src="public/js/game.js")
+        script(src="public/js/setRange.js")
+        script(src="public/js/stones.js")
