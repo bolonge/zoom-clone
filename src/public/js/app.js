@@ -152,17 +152,7 @@ socket.on("welcome", async () => {
     const turn = data.split(",")[0];
     const locationX = data.split(",")[1] - 0;
     const locationY = data.split(",")[2] - 0;
-    console.log(turn, locationX, locationY);
-    if (turn === "black") {
-      blackDown(locationX, locationY);
-      locationXY.push(`${locationX}_${locationY}`);
-      checkGame(blackId, "흑");
-    } else {
-      whiteDown(locationX, locationY);
-      locationXY.push(`${locationX}_${locationY}`);
-      checkGame(whiteId, "백");
-    }
-    changeTurn();
+    blackOrWhite(turn, locationX, locationY);
   });
   const offer = await myPeerConnection.createOffer();
   myPeerConnection.setLocalDescription(offer);
@@ -177,16 +167,7 @@ socket.on("offer", async (offer) => {
       const turn = data.split(",")[0];
       const locationX = data.split(",")[1] - 0;
       const locationY = data.split(",")[2] - 0;
-      if (turn === "black") {
-        blackDown(locationX, locationY);
-        locationXY.push(`${locationX}_${locationY}`);
-        checkGame(blackId, "흑");
-      } else {
-        whiteDown(locationX, locationY);
-        locationXY.push(`${locationX}_${locationY}`);
-        checkGame(whiteId, "백");
-      }
-      changeTurn();
+      blackOrWhite(turn, locationX, locationY);
     });
   });
   myPeerConnection.setRemoteDescription(offer);
@@ -242,21 +223,25 @@ const handleMouseDown = (event) => {
   if (!locationXY.includes(`${x}_${y}`)) {
     if (downRange.includes(x) && downRange.includes(y)) {
       myDataChannel.send(`${turn},${x},${y}`);
-      if (turn === "black") {
-        blackDown(x, y);
-        locationXY.push(`${x}_${y}`);
-        checkGame(blackId, "흑");
-      } else {
-        whiteDown(x, y);
-        locationXY.push(`${x}_${y}`);
-        checkGame(whiteId, "백");
-      }
-      changeTurn();
+      blackOrWhite(turn, x, y);
     }
   } else {
     console.log("중복");
   }
 };
+
+function blackOrWhite(turn, x, y) {
+  if (turn === "black") {
+    blackDown(x, y);
+    locationXY.push(`${x}_${y}`);
+    checkGame(blackId, "흑");
+  } else {
+    whiteDown(x, y);
+    locationXY.push(`${x}_${y}`);
+    checkGame(whiteId, "백");
+  }
+  changeTurn();
+}
 
 if (canvas) {
   canvas.addEventListener("mousedown", handleMouseDown);
