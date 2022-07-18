@@ -35,8 +35,12 @@ wsServer.on("connection", (socket) => {
     socket["nickname"] = nickname;
   });
   socket.on("join_room", (roomName) => {
-    socket.join(roomName);
-    socket.to(roomName).emit("welcome", socket.nickname);
+    if (countRoom(roomName) > 1) {
+      socket.emit("join_error", "인원이 가득 찼습니다");
+    } else {
+      socket.join(roomName);
+      socket.to(roomName).emit("welcome", socket.nickname);
+    }
   });
   socket.on("offer", (offer, roomName) => {
     socket.to(roomName).emit("offer", offer);
@@ -50,3 +54,7 @@ wsServer.on("connection", (socket) => {
 });
 
 httpServer.listen(3000, handleListen);
+
+function countRoom(roomName) {
+  return wsServer.sockets.adapter.rooms.get(roomName)?.size;
+}

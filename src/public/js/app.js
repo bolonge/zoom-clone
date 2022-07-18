@@ -144,6 +144,10 @@ nicknameForm.addEventListener("submit", handleSaveNickName);
 welcomeForm.addEventListener("submit", handleWelcomSubmit);
 
 //socket code
+socket.on("join_error", (message) => {
+  console.log(message);
+});
+
 socket.on("welcome", async (name) => {
   console.log(name + "입장했습니다");
   myDataChannel = myPeerConnection.createDataChannel("game");
