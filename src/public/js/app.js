@@ -144,8 +144,8 @@ nicknameForm.addEventListener("submit", handleSaveNickName);
 welcomeForm.addEventListener("submit", handleWelcomSubmit);
 
 //socket code
-
-socket.on("welcome", async () => {
+socket.on("welcome", async (name) => {
+  console.log(name + "입장했습니다");
   myDataChannel = myPeerConnection.createDataChannel("game");
   myDataChannel.addEventListener("message", (event) => {
     const { data } = event;
@@ -157,6 +157,7 @@ socket.on("welcome", async () => {
   const offer = await myPeerConnection.createOffer();
   myPeerConnection.setLocalDescription(offer);
   socket.emit("offer", offer, roomName);
+  localStorage.setItem("stone", "black");
 });
 
 socket.on("offer", async (offer) => {
@@ -174,6 +175,9 @@ socket.on("offer", async (offer) => {
   const answer = await myPeerConnection.createAnswer();
   myPeerConnection.setLocalDescription(answer);
   socket.emit("answer", answer, roomName);
+  if (!localStorage.getItem("stone")) {
+    localStorage.setItem("stone", "white");
+  }
 });
 
 socket.on("answer", (answer) => {
@@ -211,7 +215,6 @@ function handleIce(data) {
 
 function handleAddStream(data) {
   const peerFace = document.getElementById("peerFace");
-  console.log(data.stream);
   peerFace.srcObject = data.stream;
 }
 
@@ -222,8 +225,10 @@ const handleMouseDown = (event) => {
 
   if (!locationXY.includes(`${x}_${y}`)) {
     if (downRange.includes(x) && downRange.includes(y)) {
-      myDataChannel.send(`${turn},${x},${y}`);
-      blackOrWhite(turn, x, y);
+      if (turn === localStorage.getItem("stone")) {
+        myDataChannel.send(`${turn},${x},${y}`);
+        blackOrWhite(turn, x, y);
+      }
     }
   } else {
     console.log("중복");
