@@ -23,9 +23,11 @@ html(lang="en")
                     button#mute Mute
                     button#camera Turn Camera off
                     select#cameras
+                    button#myReadyBtn Ready
                 div#game
                     div#turn
                     canvas#gameBoard(width="670", height="670", class="bg-amber-300 rounded-md")
+                    div#startBtn Start
                 div#modal
                     div#overlay
                     div#content
@@ -34,6 +36,7 @@ html(lang="en")
                         button#cancel
                 div#peerStream
                     video#peerFace(autoplay, playsinline, width="300", height="300",class="rounded-md")
+                    div#peerReadyStatus
         script(src="/socket.io/socket.io.js") 
         script(src="public/js/app.js")
         script(src="public/js/board.js")
