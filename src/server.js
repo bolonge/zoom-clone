@@ -35,7 +35,7 @@ wsServer.on("connection", (socket) => {
     socket["nickname"] = nickname;
   });
   socket.on("join_room", (roomName) => {
-    if (countRoom(roomName) > 1) {
+    if (countUserInRoom(roomName) > 1) {
       socket.emit("join_error", "인원이 가득 찼습니다");
     } else {
       socket.join(roomName);
@@ -55,6 +55,6 @@ wsServer.on("connection", (socket) => {
 
 httpServer.listen(3000, handleListen);
 
-function countRoom(roomName) {
+function countUserInRoom(roomName) {
   return wsServer.sockets.adapter.rooms.get(roomName)?.size;
 }
