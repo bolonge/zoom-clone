@@ -160,13 +160,7 @@ socket.on("join_error", (message) => {
 socket.on("welcome", async (name) => {
   console.log(name + "입장했습니다");
   myDataChannel = myPeerConnection.createDataChannel("game");
-  myDataChannel.addEventListener("message", (event) => {
-    const { data } = event;
-    const turn = data.split(",")[0];
-    const locationX = data.split(",")[1] - 0;
-    const locationY = data.split(",")[2] - 0;
-    blackOrWhite(turn, locationX, locationY);
-  });
+  myDataChannel.addEventListener("message", handleGameDataChannel);
   const offer = await myPeerConnection.createOffer();
   myPeerConnection.setLocalDescription(offer);
   socket.emit("offer", offer, roomName);
@@ -175,13 +169,7 @@ socket.on("welcome", async (name) => {
 socket.on("offer", async (offer) => {
   myPeerConnection.addEventListener("datachannel", (event) => {
     myDataChannel = event.channel;
-    myDataChannel.addEventListener("message", (event) => {
-      const { data } = event;
-      const turn = data.split(",")[0];
-      const locationX = data.split(",")[1] - 0;
-      const locationY = data.split(",")[2] - 0;
-      blackOrWhite(turn, locationX, locationY);
-    });
+    myDataChannel.addEventListener("message", handleGameDataChannel);
   });
   myPeerConnection.setRemoteDescription(offer);
   const answer = await myPeerConnection.createAnswer();
@@ -247,6 +235,14 @@ const handleMouseDown = (event) => {
     console.log("중복");
   }
 };
+
+function handleGameDataChannel(event) {
+  const { data } = event;
+  const turn = data.split(",")[0];
+  const locationX = data.split(",")[1] - 0;
+  const locationY = data.split(",")[2] - 0;
+  blackOrWhite(turn, locationX, locationY);
+}
 
 function blackOrWhite(turn, x, y) {
   if (turn === "black") {
