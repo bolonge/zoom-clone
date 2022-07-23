@@ -51,10 +51,29 @@ wsServer.on("connection", (socket) => {
   socket.on("ice", (ice, roomName) => {
     socket.to(roomName).emit("ice", ice);
   });
+  socket.on("start_game", (roomName) => {
+    let stones = randomStone();
+    const users = usersInRoom(roomName);
+    users.forEach((user) => {
+      wsServer.to(user).emit("stone", stones[0]);
+      stones = [stones[1]];
+    });
+  });
 });
 
 httpServer.listen(3000, handleListen);
 
 function countUserInRoom(roomName) {
   return wsServer.sockets.adapter.rooms.get(roomName)?.size;
+}
+
+function usersInRoom(roomName) {
+  return wsServer.sockets.adapter.rooms.get(roomName);
+}
+
+function randomStone() {
+  let stones = [];
+  const randomNumber = Math.floor(Math.random() * 2);
+  randomNumber ? (stones = ["black", "white"]) : (stones = ["white", "black"]);
+  return stones;
 }

@@ -19,15 +19,16 @@ html(lang="en")
                     button(class="welcome-button") Enter Room      
             div#call(class="",hidden=true)
                 div#myStream(class='')
-                    video#myFace(autoplay, playsinline, width="300", height="300",class="rounded-md")
-                    button#mute Mute
-                    button#camera Turn Camera off
-                    select#cameras
-                    button#myReadyBtn Ready
+                    div
+                        video#myFace(autoplay, playsinline, width="300", height="300",class="rounded-md")
+                        button#mute Mute
+                        button#camera Turn Camera off
+                        select#cameras
+                    div
+                        button#myReadyBtn Start
                 div#game
                     div#turn
                     canvas#gameBoard(width="670", height="670", class="bg-amber-300 rounded-md")
-                    div#startBtn Start
                 div#modal
                     div#overlay
                     div#content

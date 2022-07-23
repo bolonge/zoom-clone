@@ -5,6 +5,7 @@ const muteBtn = document.getElementById("mute");
 const cameraBtn = document.getElementById("camera");
 const camerasSelect = document.getElementById("cameras");
 const call = document.getElementById("call");
+const startBtn = document.getElementById("myReadyBtn");
 
 const canvas = document.getElementById("gameBoard");
 const ctx = canvas.getContext("2d");
@@ -105,6 +106,14 @@ muteBtn.addEventListener("click", handleMuteClick);
 cameraBtn.addEventListener("click", handleVideoClick);
 camerasSelect.addEventListener("input", handleCameraChange);
 
+//start game code
+
+function handleStartGame() {
+  socket.emit("start_game", roomName);
+}
+
+startBtn.addEventListener("click", handleStartGame);
+
 //welcome form code
 
 const welcome = document.getElementById("welcome");
@@ -161,7 +170,6 @@ socket.on("welcome", async (name) => {
   const offer = await myPeerConnection.createOffer();
   myPeerConnection.setLocalDescription(offer);
   socket.emit("offer", offer, roomName);
-  localStorage.setItem("stone", "black");
 });
 
 socket.on("offer", async (offer) => {
@@ -179,9 +187,6 @@ socket.on("offer", async (offer) => {
   const answer = await myPeerConnection.createAnswer();
   myPeerConnection.setLocalDescription(answer);
   socket.emit("answer", answer, roomName);
-  if (!localStorage.getItem("stone")) {
-    localStorage.setItem("stone", "white");
-  }
 });
 
 socket.on("answer", (answer) => {
@@ -190,6 +195,10 @@ socket.on("answer", (answer) => {
 
 socket.on("ice", (ice) => {
   myPeerConnection.addIceCandidate(ice);
+});
+
+socket.on("stone", (stone) => {
+  localStorage.setItem("stone", stone);
 });
 
 //RTC code
