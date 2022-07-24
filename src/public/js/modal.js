@@ -1,8 +1,9 @@
-const modal = document.querySelector(".modal");
-const overlay = modal.querySelector(".modal__overlay");
-const winner = document.getElementById("winner");
-const closeBtn = document.getElementById("cancel");
-const reloadBtn = document.getElementById("reload");
+const modal = document.getElementById("modal");
+const overlay = modal.querySelector("#overlay");
+const content = modal.querySelector("#content");
+const winner = content.querySelector("h1");
+const reloadBtn = content.querySelector("#reload");
+const closeBtn = content.querySelector("#cancel");
 
 function resultModal(color = "") {
   modal.classList.remove("hidden");
