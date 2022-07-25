@@ -20,7 +20,8 @@ let myNickname,
   locationXY = [],
   blackId = [],
   whiteId = [],
-  turn = "black";
+  turn = "black",
+  errorMessage = "";
 
 async function getCameras() {
   try {
@@ -137,6 +138,14 @@ async function initCall() {
   makeConnection();
 }
 
+function alertErrorMessage() {
+  if (errorMessage !== "") {
+    alert(errorMessage);
+    errorMessage = "";
+    window.location.reload();
+  }
+}
+
 async function handleWelcomSubmit(event) {
   event.preventDefault();
   if (!myNickname) {
@@ -154,7 +163,8 @@ welcomeForm.addEventListener("submit", handleWelcomSubmit);
 
 //socket code
 socket.on("join_error", (message) => {
-  console.log(message);
+  errorMessage = message;
+  alertErrorMessage();
 });
 
 socket.on("welcome", async (name) => {
