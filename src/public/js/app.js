@@ -5,7 +5,7 @@ const muteBtn = document.getElementById("mute");
 const cameraBtn = document.getElementById("camera");
 const camerasSelect = document.getElementById("cameras");
 const call = document.getElementById("call");
-const startBtn = document.getElementById("myReadyBtn");
+const startBtn = document.getElementById("myStartBtn");
 
 const canvas = document.getElementById("gameBoard");
 const ctx = canvas.getContext("2d");
@@ -111,6 +111,7 @@ camerasSelect.addEventListener("input", handleCameraChange);
 
 function handleStartGame() {
   socket.emit("start_game", roomName);
+  startBtn.hidden = true;
 }
 
 startBtn.addEventListener("click", handleStartGame);
@@ -168,12 +169,12 @@ socket.on("join_error", (message) => {
 });
 
 socket.on("welcome", async (name) => {
-  console.log(name + "입장했습니다");
   myDataChannel = myPeerConnection.createDataChannel("game");
   myDataChannel.addEventListener("message", handleGameDataChannel);
   const offer = await myPeerConnection.createOffer();
   myPeerConnection.setLocalDescription(offer);
   socket.emit("offer", offer, roomName);
+  startBtn.hidden = false;
 });
 
 socket.on("offer", async (offer) => {

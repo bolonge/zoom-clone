@@ -6,38 +6,43 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title watchinggo
         link(rel="stylesheet", href="public/css/style.css")
-    body(class="flex flex-col justify-center items-center")
-        header(class="container flex justify-center items-center")
-            h1(class="text-lg font-bold") watchinggo
-        main(class="container flex justify-center items-center h-screen")
-            div#welcome(class="")
-                form#nickname(class="border-b-2 pb-3 border-slate-200")
-                    input(placeholder="Your Name",required, type="text" class="welcome-input")
-                    button(class="welcome-button") Save   
-                form#roomName(class="")
-                    input(placeholder="Room Name",required, type="text" class="welcome-input")
-                    button(class="welcome-button") Enter Room      
-            div#call(class="",hidden=true)
-                div#myStream(class='')
-                    div
-                        video#myFace(autoplay, playsinline, width="300", height="300",class="rounded-md")
-                        button#mute Mute
-                        button#camera Turn Camera off
-                        select#cameras
-                    div
-                        button#myReadyBtn Start
-                div#game
-                    div#turn
-                    canvas#gameBoard(width="670", height="670", class="bg-amber-300 rounded-md")
-                div#modal
-                    div#overlay
-                    div#content
-                        h1#winner
-                        button#reload Restart
-                        button#cancel Cancel
-                div#peerStream
-                    video#peerFace(autoplay, playsinline, width="300", height="300",class="rounded-md")
-                    div#peerReadyStatus
+    body
+        div(class="flex flex-col justify-center items-center")
+            header(class="container flex justify-center items-center p-5")
+                h1(class="text-lg font-bold") watchinggo
+            main(class="container flex justify-center items-center h-screen")
+                div#welcome(class="")
+                    form#nickname(class="border-b-2 pb-3 border-slate-200")
+                        input(placeholder="Your Name",required, type="text" class="welcome-input")
+                        button(class="welcome-button") Save   
+                    form#roomName(class="")
+                        input(placeholder="Room Name",required, type="text" class="welcome-input")
+                        button(class="welcome-button") Enter Room      
+                div#call(hidden="true",class="")
+                    div(class="flex justify-between")
+                        div#myStream
+                            div(class="flex")
+                                div(class="flex flex-col")
+                                    video#myFace(autoplay, playsinline, width="200",class="rounded-md")
+                                    select#cameras(class="my-2 w-52")
+                                div(class="flex flex-col")    
+                                    div(class="flex flex-col") 
+                                        button#mute Mute
+                                        button#camera Turn Camera off
+                        div#peerStream
+                            video#peerFace(autoplay, playsinline, width="200",class="rounded-md")
+                    div(class="flex justify-center items-center mb-2 rounded-md border border-amber-300")
+                        button#myStartBtn(class="p-2",hidden="true") Start
+                    div#game
+                        div#turn
+                        canvas#gameBoard(width="670", height="670", class="bg-amber-300 rounded-md")
+                    div#modal
+                        div#overlay
+                        div#content
+                            h1#winner
+                            button#reload Restart
+                            button#cancel Cancel
+                    
         script(src="/socket.io/socket.io.js") 
         script(src="public/js/app.js")
         script(src="public/js/board.js")
