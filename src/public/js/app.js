@@ -7,8 +7,9 @@ const camerasSelect = document.getElementById("cameras");
 const call = document.getElementById("call");
 const startBtn = document.getElementById("myStartBtn");
 
-const canvas = document.getElementById("gameBoard");
-const ctx = canvas.getContext("2d");
+const game = document.getElementById("game");
+let canvas = document.getElementById("gameBoard");
+let ctx = canvas.getContext("2d");
 
 let myNickname,
   myStream,
@@ -200,6 +201,18 @@ socket.on("stone", (stone) => {
   localStorage.setItem("stone", stone);
 });
 
+socket.on("left_user", () => {
+  alert("상대방이 나갔습니다");
+  locationXY = [];
+  blackId = [];
+  whiteId = [];
+  canvas.remove();
+  canvas = reDrawBoard(canvas);
+  ctx = canvas.getContext("2d");
+  drawBoard(ctx);
+  game.appendChild(canvas);
+});
+
 //RTC code
 function makeConnection() {
   myPeerConnection = new RTCPeerConnection({
@@ -267,6 +280,8 @@ function blackOrWhite(turn, x, y) {
   }
   changeTurn();
 }
+
+drawBoard(ctx);
 
 if (canvas) {
   canvas.addEventListener("mousedown", handleMouseDown);
