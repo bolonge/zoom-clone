@@ -59,6 +59,9 @@ wsServer.on("connection", (socket) => {
       stones = [stones[1]];
     });
   });
+  socket.on("disconnecting", () => {
+    socket.rooms.forEach((room) => socket.to(room).emit("left_user"));
+  });
 });
 
 httpServer.listen(3000, handleListen);

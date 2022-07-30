@@ -207,9 +207,9 @@ socket.on("left_user", () => {
   blackId = [];
   whiteId = [];
   canvas.remove();
-  canvas = reDrawBoard(canvas);
+  canvas = createBoard(canvas);
   ctx = canvas.getContext("2d");
-  drawBoard(ctx);
+  drawLine(ctx);
   game.appendChild(canvas);
 });
 
@@ -281,7 +281,7 @@ function blackOrWhite(turn, x, y) {
   changeTurn();
 }
 
-drawBoard(ctx);
+drawLine(ctx);
 
 if (canvas) {
   canvas.addEventListener("mousedown", handleMouseDown);

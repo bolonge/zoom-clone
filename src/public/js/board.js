@@ -1,4 +1,4 @@
-function drawBoard(ctx) {
+function drawLine(ctx) {
   ctx.strokeRect(20, 20, 630, 630);
   ctx.beginPath();
 
@@ -33,11 +33,11 @@ function drawBoard(ctx) {
   ctx.fill();
 }
 
-function reDrawBoard(canvas) {
+function createBoard(canvas) {
   canvas = document.createElement("canvas");
   canvas.id = "gameBoard";
   canvas.width = "670";
   canvas.height = "670";
-  canvas.classList.add(["bg-amber-300", "rounded-md"]);
+  canvas.classList.add(["bg-amber-300"], ["rounded-md"]);
   return canvas;
 }
