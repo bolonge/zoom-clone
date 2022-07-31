@@ -10,6 +10,13 @@ function changeTurn() {
   }
 }
 
+function canDownStoneOnBoard(canvas) {
+  if (canvas) {
+    canvas.addEventListener("mousedown", handleMouseDown);
+    canvas.addEventListener("touchend", handleMouseDown);
+  }
+}
+
 function checkGame(id, color = "") {
   for (let i = 1; i < 225; i++) {
     if (

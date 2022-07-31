@@ -199,6 +199,7 @@ socket.on("ice", (ice) => {
 
 socket.on("stone", (stone) => {
   localStorage.setItem("stone", stone);
+  canDownStoneOnBoard(canvas);
 });
 
 socket.on("left_user", () => {
@@ -211,6 +212,8 @@ socket.on("left_user", () => {
   ctx = canvas.getContext("2d");
   drawLine(ctx);
   game.appendChild(canvas);
+  handlePeerFaceSet(0);
+  startBtn.hidden = true;
 });
 
 //RTC code
@@ -228,7 +231,7 @@ function makeConnection() {
     ],
   });
   myPeerConnection.addEventListener("icecandidate", handleIce);
-  myPeerConnection.addEventListener("addstream", handleAddStream);
+  myPeerConnection.addEventListener("addstream", handlePeerFaceSet);
   myStream
     .getTracks()
     .forEach((track) => myPeerConnection.addTrack(track, myStream));
@@ -238,9 +241,9 @@ function handleIce(data) {
   socket.emit("ice", data.candidate, roomName);
 }
 
-function handleAddStream(data) {
+function handlePeerFaceSet(data) {
   const peerFace = document.getElementById("peerFace");
-  peerFace.srcObject = data.stream;
+  data ? (peerFace.srcObject = data.stream) : (peerFace.src = "");
 }
 
 // game
@@ -282,8 +285,3 @@ function blackOrWhite(turn, x, y) {
 }
 
 drawLine(ctx);
-
-if (canvas) {
-  canvas.addEventListener("mousedown", handleMouseDown);
-  canvas.addEventListener("touchend", handleMouseDown);
-}

@@ -10,5 +10,5 @@ Zoom Clone using NodeJS, WebRTC and WebSocket
     - [x] 게임 턴을 위해 datachannel 통신
   - [ ] 종료 시
     - [ ] 정상적으로 게임이 끝났을 때
-    - [ ] 비 정상적으로 게임이 끝났을 때
-      - [ ] 한명이 게임하는 도중 나갔을 때
+    - [x] 비 정상적으로 게임이 끝났을 때
+      - [x] 한명이 게임하는 도중 나갔을 때
