@@ -3,10 +3,21 @@
 
 @layer components {
     .welcome-input {
-      @apply w-full p-3 my-3 border rounded-md ;
+      @apply w-full p-3 my-3 border rounded-md;
     }
     .welcome-button {
-        @apply w-full border-2 border-amber-400 p-2 rounded-md hover:bg-amber-400 disabled:border-transparent disabled:bg-slate-200
+      @apply w-full border-2 border-amber-400 p-2 rounded-md hover:bg-amber-400 disabled:border-transparent disabled:bg-slate-200
+    }
+    #modal {
+      @apply w-full h-full fixed top-0 left-0 justify-center items-center;
+    }
+    #modalOverlay {
+      @apply w-full h-full absolute;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+    #modalContent {
+      @apply bg-white relative text-center rounded-md w-1/4 h-16 top-0;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     }
 }
 

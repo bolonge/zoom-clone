@@ -35,12 +35,12 @@ html(lang="en")
                         div#myStartBtn(class="w-full h-full p-2 text-center cursor-pointer",hidden="true") Start
                     div#game
                         canvas#gameBoard(width="670", height="670", class="bg-amber-300 rounded-md")
-                    div#modal
-                        div#overlay
-                        div#content
+                    div#modal(class="hidden")
+                        div#modalOverlay
+                        div#modalContent
                             h1#winner
-                            button#reload Restart
-                            button#cancel Cancel
+                            button#reload Ready
+                            button#cancel 나가기
                     
         script(src="/socket.io/socket.io.js") 
         script(src="public/js/board.js")
