@@ -51,6 +51,9 @@ wsServer.on("connection", (socket) => {
   socket.on("ice", (ice, roomName) => {
     socket.to(roomName).emit("ice", ice);
   });
+  socket.on("ready", (roomName) => {
+    socket.to(roomName).emit("ready");
+  });
   socket.on("start_game", (roomName) => {
     let stones = randomStone();
     const users = usersInRoom(roomName);

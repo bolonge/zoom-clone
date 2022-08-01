@@ -7,6 +7,8 @@ const camerasSelect = document.getElementById("cameras");
 const call = document.getElementById("call");
 const startBtn = document.getElementById("myStartBtn");
 
+const modal = document.getElementById("modal");
+
 const game = document.getElementById("game");
 let canvas = document.getElementById("gameBoard");
 let ctx = canvas.getContext("2d");
@@ -22,6 +24,7 @@ let myNickname,
   blackId = [],
   whiteId = [],
   turn = "black",
+  isPeerReady = false,
   errorMessage = "";
 
 async function getCameras() {
@@ -199,7 +202,14 @@ socket.on("ice", (ice) => {
 
 socket.on("stone", (stone) => {
   localStorage.setItem("stone", stone);
+  modal.classList.replace("flex", "hidden");
   canDownStoneOnBoard(canvas);
+});
+
+socket.on("ready", () => {
+  isPeerReady = true;
+  const reloadBtn = document.getElementById("reload");
+  reloadBtn.innerHTML = "시작하기";
 });
 
 socket.on("left_user", () => {

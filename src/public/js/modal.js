@@ -1,7 +1,6 @@
 function resultModal(color = "") {
-  const modal = document.getElementById("modal");
-  const overlay = modal.querySelector("#modalOverlay");
-  const content = modal.querySelector("#modalContent");
+  const overlay = document.getElementById("modalOverlay");
+  const content = document.getElementById("modalContent");
   const winner = content.querySelector("h1");
   const reloadBtn = content.querySelector("#reload");
   const closeBtn = content.querySelector("#cancel");
@@ -9,16 +8,22 @@ function resultModal(color = "") {
   modal.classList.replace("hidden", "flex");
   winner.innerText = `${color}이 승리했습니다`;
 
-  overlay.addEventListener("click", () => {
-    //배경 클릭
-    modal.classList.replace("flex", "hidden");
-  });
-  closeBtn.addEventListener("click", () => {
-    // 취소버튼 클릭
+  overlay.addEventListener("click", handleCancelClick);
+  closeBtn.addEventListener("click", handleCancelClick);
+  reloadBtn.addEventListener("click", handleGameReadyOrStart);
+
+  function handleCancelClick() {
     modal.classList.replace("flex", "hidden");
     window.location.reload();
-  });
-  reloadBtn.addEventListener("click", () => {
-    //새 게임버튼 클릭
-  });
+  }
+
+  function handleGameReadyOrStart(e) {
+    if (isPeerReady) {
+      socket.emit("start_game", roomName);
+      modal.classList.replace("flex", "hidden");
+    } else {
+      socket.emit("ready", roomName);
+      e.target.classList.add("hidden");
+    }
+  }
 }
