@@ -34,6 +34,9 @@ html(lang="en")
                     div(class="flex justify-center items-center mb-2 rounded-md border border-amber-300")
                         div#myStartBtn(class="w-full h-full p-2 text-center cursor-pointer",hidden="true") Start
                     div#game
+                        div#turnInfo(class="flex justify-center items-center rounded-md p-2 bg-amber-200")
+                            div#turn(class="w-8 h-8 border bg-black rounded-full hidden")
+                            div#info(class="ml-4 hidden") My Turn
                         canvas#gameBoard(width="670", height="670", class="bg-amber-300 rounded-md")
                     div#modal(class="hidden")
                         div#modalOverlay

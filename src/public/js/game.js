@@ -1,13 +1,29 @@
-const turnImg = document.getElementById("turn");
+const turnInfo = game.querySelector("div");
+const turnImg = turnInfo.querySelector("#turn");
+const turnText = turnInfo.querySelector("#info");
 
 function changeTurn() {
   if (turn === "black") {
     turn = "white";
-    turnImg.style.background = "#fff";
+    turnImg.style.background = "white";
   } else {
     turn = "black";
-    turnImg.style.background = "#262626";
+    turnImg.style.background = "black";
   }
+  displayTurnInfo(turn);
+}
+
+function displayTurnInfo(turn) {
+  const myStone = localStorage.getItem("stone");
+  turnImg.classList.remove("hidden");
+  myStone === turn
+    ? turnText.classList.remove("hidden")
+    : turnText.classList.add("hidden");
+}
+
+function clearTurnInfo() {
+  turnImg.style.background = "transparent";
+  turnText.classList.add("hidden");
 }
 
 function canDownStoneOnBoard(canvas) {

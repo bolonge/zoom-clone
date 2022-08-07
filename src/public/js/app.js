@@ -204,6 +204,7 @@ socket.on("stone", (stone) => {
   localStorage.setItem("stone", stone);
   modal.classList.replace("flex", "hidden");
   canDownStoneOnBoard(canvas);
+  displayTurnInfo(turn);
 });
 
 socket.on("ready", () => {
