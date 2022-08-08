@@ -41,9 +41,11 @@ html(lang="en")
                     div#modal(class="hidden")
                         div#modalOverlay
                         div#modalContent
-                            h1#winner
-                            button#reload Ready
-                            button#cancel 나가기
+                            h1#winner(class="font-bold text-lg")
+                            div#modalMessage 다시 시작하려면 Ready를 눌러주세요
+                            div(class="flex justify-center items-center")
+                                button#reload(class="base-button bg-amber-400 mx-1 p-2") Ready
+                                button#cancel(class="base-button mx-1 p-2") 나가기
                     
         script(src="/socket.io/socket.io.js") 
         script(src="public/js/board.js")

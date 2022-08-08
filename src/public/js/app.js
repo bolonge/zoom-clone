@@ -209,8 +209,7 @@ socket.on("stone", (stone) => {
 
 socket.on("ready", () => {
   isPeerReady = true;
-  const reloadBtn = document.getElementById("reload");
-  reloadBtn.innerHTML = "시작하기";
+  handleModalReadyButton();
 });
 
 socket.on("left_user", () => {

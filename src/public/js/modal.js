@@ -27,3 +27,12 @@ function resultModal(color = "") {
     }
   }
 }
+
+function handleModalReadyButton() {
+  const reloadBtn = document.getElementById("reload");
+  const modalMessage = document.getElementById("modalMessage");
+  if (isPeerReady) {
+    modalMessage.innerHTML = "상대가 준비 했습니다";
+    reloadBtn.innerHTML = "시작하기";
+  }
+}
