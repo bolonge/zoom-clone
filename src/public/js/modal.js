@@ -21,6 +21,7 @@ function resultModal(color = "") {
     if (isPeerReady) {
       socket.emit("start_game", roomName);
       modal.classList.replace("flex", "hidden");
+      isPeerReady = false;
     } else {
       socket.emit("ready", roomName);
       e.target.classList.add("hidden");

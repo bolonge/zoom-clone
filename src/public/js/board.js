@@ -41,3 +41,22 @@ function createBoard(canvas) {
   canvas.classList.add(["bg-amber-300"], ["rounded-md"]);
   return canvas;
 }
+
+function checkBoardClear() {
+  if (locationXY.length !== 0) {
+    locationXY = [];
+    blackId = [];
+    whiteId = [];
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function clearBoard() {
+  canvas.remove();
+  canvas = createBoard(canvas);
+  ctx = canvas.getContext("2d");
+  drawLine(ctx);
+  game.appendChild(canvas);
+}

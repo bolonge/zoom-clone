@@ -201,6 +201,11 @@ socket.on("ice", (ice) => {
 });
 
 socket.on("stone", (stone) => {
+  if (!checkBoardClear()) {
+    clearBoard();
+    clearTurnInfo();
+  }
+  turn = "black";
   localStorage.setItem("stone", stone);
   modal.classList.replace("flex", "hidden");
   canDownStoneOnBoard(canvas);
@@ -214,14 +219,10 @@ socket.on("ready", () => {
 
 socket.on("left_user", () => {
   alert("상대방이 나갔습니다");
-  locationXY = [];
-  blackId = [];
-  whiteId = [];
-  canvas.remove();
-  canvas = createBoard(canvas);
-  ctx = canvas.getContext("2d");
-  drawLine(ctx);
-  game.appendChild(canvas);
+  if (!checkBoardClear()) {
+    clearBoard();
+    clearTurnInfo();
+  }
   handlePeerFaceSet(0);
   startBtn.hidden = true;
 });

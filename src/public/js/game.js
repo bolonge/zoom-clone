@@ -22,7 +22,8 @@ function displayTurnInfo(turn) {
 }
 
 function clearTurnInfo() {
-  turnImg.style.background = "transparent";
+  turnImg.style.background = "black";
+  turnImg.classList.add("hidden");
   turnText.classList.add("hidden");
 }
 
