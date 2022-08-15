@@ -23,9 +23,10 @@ let myNickname,
   locationXY = [],
   blackId = [],
   whiteId = [],
-  turn = "black",
   isPeerReady = false,
   errorMessage = "";
+
+const gameInfo = new Game();
 
 async function getCameras() {
   try {
@@ -205,11 +206,11 @@ socket.on("stone", (stone) => {
     clearBoard();
     clearTurnInfo();
   }
-  turn = "black";
+  gameInfo.turn = "black";
   localStorage.setItem("stone", stone);
   modal.classList.replace("flex", "hidden");
   canDownStoneOnBoard(canvas);
-  displayTurnInfo(turn);
+  gameInfo.displayTurnInfo(gameInfo.turn);
 });
 
 socket.on("ready", () => {
@@ -264,9 +265,9 @@ const handleMouseDown = (event) => {
 
   if (!locationXY.includes(`${x}_${y}`)) {
     if (downRange.includes(x) && downRange.includes(y)) {
-      if (turn === localStorage.getItem("stone")) {
-        myDataChannel.send(`${turn},${x},${y}`);
-        blackOrWhite(turn, x, y);
+      if (gameInfo.turn === localStorage.getItem("stone")) {
+        myDataChannel.send(`${gameInfo.turn},${x},${y}`);
+        blackOrWhite(gameInfo.turn, x, y);
       }
     }
   } else {
@@ -292,7 +293,7 @@ function blackOrWhite(turn, x, y) {
     locationXY.push(`${x}_${y}`);
     checkGame(whiteId, "백");
   }
-  changeTurn();
+  gameInfo.changeTurn();
 }
 
 drawLine(ctx);

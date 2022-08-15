@@ -2,23 +2,36 @@ const turnInfo = game.querySelector("div");
 const turnImg = turnInfo.querySelector("#turn");
 const turnText = turnInfo.querySelector("#info");
 
-function changeTurn() {
-  if (turn === "black") {
-    turn = "white";
-    turnImg.style.background = "white";
-  } else {
-    turn = "black";
-    turnImg.style.background = "black";
-  }
-  displayTurnInfo(turn);
-}
+class Game {
+  #turn;
+  constructor() {}
 
-function displayTurnInfo(turn) {
-  const myStone = localStorage.getItem("stone");
-  turnImg.classList.remove("hidden");
-  myStone === turn
-    ? turnText.classList.remove("hidden")
-    : turnText.classList.add("hidden");
+  get turn() {
+    return this.#turn;
+  }
+
+  set turn(turn) {
+    this.#turn = turn;
+  }
+
+  displayTurnInfo(turn) {
+    const myStone = localStorage.getItem("stone");
+    turnImg.classList.remove("hidden");
+    myStone === turn
+      ? turnText.classList.remove("hidden")
+      : turnText.classList.add("hidden");
+  }
+
+  changeTurn() {
+    if (this.#turn === "black") {
+      this.#turn = "white";
+      turnImg.style.background = "white";
+    } else {
+      this.#turn = "black";
+      turnImg.style.background = "black";
+    }
+    this.displayTurnInfo(this.#turn);
+  }
 }
 
 function clearTurnInfo() {
