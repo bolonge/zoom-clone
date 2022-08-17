@@ -264,7 +264,7 @@ const handleMouseDown = (event) => {
   const y = rangeSet(event.offsetY);
 
   if (!locationXY.includes(`${x}_${y}`)) {
-    if (downRange.includes(x) && downRange.includes(y)) {
+    if (canDownRanges.includes(x) && canDownRanges.includes(y)) {
       if (gameInfo.turn === localStorage.getItem("stone")) {
         myDataChannel.send(`${gameInfo.turn},${x},${y}`);
         blackOrWhite(gameInfo.turn, x, y);
