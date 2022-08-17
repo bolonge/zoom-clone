@@ -24,3 +24,4 @@ Zoom Clone using NodeJS, WebRTC and WebSocket
   - [x] 모달창
 - [ ] 오류
   - [ ] 유저 두명이 있을때 먼저있던 유저가 나가고 다시 들어가면 상대방 화면이 안나오는 오류
+- [ ] gulp

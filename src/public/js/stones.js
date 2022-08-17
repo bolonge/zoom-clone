@@ -31,7 +31,22 @@ class LocationIds {
   set whiteIds(id) {
     this.#whiteIds.push(id);
   }
+  blackIdSort() {
+    this.#blackIds.sort((a, b) => a - b);
+  }
+
+  whiteIdSort() {
+    this.#whiteIds.sort((a, b) => a - b);
+  }
+
+  clear() {
+    this.#totalIds = [];
+    this.#blackIds = [];
+    this.#whiteIds = [];
+  }
 }
+
+const locationIds = new LocationIds();
 
 function blackDown(x, y) {
   //검은돌 이미지 놓기
@@ -39,8 +54,8 @@ function blackDown(x, y) {
     ctx.drawImage(blackStone, x - 22.5, y - 22.5, STONE_WIDTH, STONE_HEIGHT);
   };
   blackStone.src = "http://localhost:3000/public/img/black.png";
-  blackId.push(createId(x, y));
-  blackId.sort((a, b) => a - b);
+  locationIds.blackIds = createId(x, y);
+  locationIds.blackIdSort();
 }
 
 function whiteDown(x, y) {
@@ -49,6 +64,6 @@ function whiteDown(x, y) {
     ctx.drawImage(whiteStone, x - 22.5, y - 22.5, STONE_WIDTH, STONE_HEIGHT);
   };
   whiteStone.src = "http://localhost:3000/public/img/white.png";
-  whiteId.push(createId(x, y));
-  whiteId.sort((a, b) => a - b);
+  locationIds.whiteIds = createId(x, y);
+  locationIds.whiteIdSort();
 }

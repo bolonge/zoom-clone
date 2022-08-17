@@ -43,14 +43,11 @@ function createBoard(canvas) {
 }
 
 function checkBoardClear() {
-  if (locationXY.length !== 0) {
-    locationXY = [];
-    blackId = [];
-    whiteId = [];
+  if (locationIds.totalIds.length !== 0) {
+    locationIds.clear();
     return false;
-  } else {
-    return true;
   }
+  return true;
 }
 
 function clearBoard() {

@@ -20,9 +20,6 @@ let myNickname,
   roomName,
   myPeerConnection,
   myDataChannel,
-  locationXY = [],
-  blackId = [],
-  whiteId = [],
   isPeerReady = false,
   errorMessage = "";
 
@@ -263,7 +260,7 @@ const handleMouseDown = (event) => {
   const x = rangeSet(event.offsetX);
   const y = rangeSet(event.offsetY);
 
-  if (!locationXY.includes(`${x}_${y}`)) {
+  if (!locationIds.totalIds.includes(`${x}_${y}`)) {
     if (canDownRanges.includes(x) && canDownRanges.includes(y)) {
       if (gameInfo.turn === localStorage.getItem("stone")) {
         myDataChannel.send(`${gameInfo.turn},${x},${y}`);
@@ -286,12 +283,12 @@ function handleGameDataChannel(event) {
 function blackOrWhite(turn, x, y) {
   if (turn === "black") {
     blackDown(x, y);
-    locationXY.push(`${x}_${y}`);
-    checkGame(blackId, "흑");
+    locationIds.totalIds = `${x}_${y}`;
+    checkGame(locationIds.blackIds, "흑");
   } else {
     whiteDown(x, y);
-    locationXY.push(`${x}_${y}`);
-    checkGame(whiteId, "백");
+    locationIds.totalIds = `${x}_${y}`;
+    checkGame(locationIds.whiteIds, "백");
   }
   gameInfo.changeTurn();
 }
