@@ -4,6 +4,35 @@ const STONE_HEIGHT = 45;
 const whiteStone = new Image(); //이미지 생성
 const blackStone = new Image();
 
+class LocationIds {
+  #totalIds;
+  #blackIds;
+  #whiteIds;
+  constructor() {
+    this.#totalIds = [];
+    this.#blackIds = [];
+    this.#whiteIds = [];
+  }
+  get totalIds() {
+    return this.#totalIds;
+  }
+  set totalIds(id) {
+    this.#totalIds.push(id);
+  }
+  get blackIds() {
+    return this.#blackIds;
+  }
+  set blackIds(id) {
+    this.#blackIds.push(id);
+  }
+  get whiteIds() {
+    return this.#whiteIds;
+  }
+  set whiteIds(id) {
+    this.#whiteIds.push(id);
+  }
+}
+
 function blackDown(x, y) {
   //검은돌 이미지 놓기
   blackStone.onload = function () {
